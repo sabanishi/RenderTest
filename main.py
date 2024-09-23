@@ -14,7 +14,6 @@ intents.message_content = True  # メッセージの内容にアクセスでき�
 client = discord.Client(intents=intents)
 
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
-GITHUB_API_URL = os.getenv('GITHUB_API_URL')
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
 OWNER = os.getenv('OWNER')
 REPO = os.getenv('REPO')
@@ -23,8 +22,10 @@ REPO = os.getenv('REPO')
 def get_webhook_data():
     return {"event_type": "trigger-workflow", "client_payload": {"key": "value"}}
 
-def trigger_github_action():
-    url = GITHUB_API_URL.format(owner=OWNER, repo=REPO)
+def trigger_github_action(owner,repo):
+    print(owner)
+    print(repo)
+    url = GITHUB_API_URL.format(owner=owner, repo=repo)
 
     headers = {
         "Authorization": f"Bearer {GITHUB_TOKEN}",
@@ -53,7 +54,7 @@ async def reply(message):
         reply = f'{message.author.mention} さん、了解です！'
         await message.channel.send(reply)
         #Android用のGitHub Actionをトリガーする
-        trigger_github_action()
+        trigger_github_action(OWNER, REPO)
     
     if 'iOS' in message.content:
         reply = f'{message.author.mention} さん、こんにちは！'
