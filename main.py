@@ -52,16 +52,12 @@ async def reply(message):
     #メッセージ中に「Android」という文字列が含まれているかをチェックする
     if 'Android' in message.content:
         print('Androidが含まれています')
-        reply = f'{message.author.mention} さん、了解です！'
-        await message.channel.send(reply)
+        await message.add_reaction('👍')
+
         #Android用のGitHub Actionをトリガーする
         trigger_github_action(OWNER, REPO)
     else:
         reply = "zZz..."
-        await message.channel.send(reply)
-    
-    if 'iOS' in message.content:
-        reply = f'{message.author.mention} さん、こんにちは！'
         await message.channel.send(reply)
 
 # メッセージ受信時に動作する処理
