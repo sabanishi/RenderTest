@@ -1,6 +1,6 @@
 import discord
 import os
-from keep_akive import keep_alive
+from keep_alive import keep_alive
 
 # 必要なintentsを設定
 intents = discord.Intents.default()
