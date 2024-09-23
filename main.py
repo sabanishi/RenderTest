@@ -6,6 +6,7 @@ from keep_alive import keep_alive
 
 GITHUB_API_URL = "https://api.github.com/repos/{owner}/{repo}/dispatches"
 
+
 # 必要なintentsを設定
 intents = discord.Intents.default()
 intents.message_content = True  # メッセージの内容にアクセスできるようにする
@@ -55,6 +56,9 @@ async def reply(message):
         await message.channel.send(reply)
         #Android用のGitHub Actionをトリガーする
         trigger_github_action(OWNER, REPO)
+    else:
+        reply = "zZz..."
+        await message.channel.send(reply)
     
     if 'iOS' in message.content:
         reply = f'{message.author.mention} さん、こんにちは！'
