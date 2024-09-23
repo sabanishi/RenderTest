@@ -20,10 +20,15 @@ OWNER = os.getenv('OWNER')
 REPO = os.getenv('REPO')
 
 # Webhookで受け取るイベントデータを取得する関数
-def get_webhook_data():
-    return {"event_type": "trigger-workflow", "client_payload": {"key": "value"}}
+def get_webhook_data(name):
+    return {
+        "event_type": "trigger-workflow", 
+        "client_payload": {
+            "name":name
+        }
+    }
 
-def trigger_github_action(owner,repo):
+def trigger_github_action(owner,repo,name):
     print(owner)
     print(repo)
     url = GITHUB_API_URL.format(owner=owner, repo=repo)
@@ -33,7 +38,7 @@ def trigger_github_action(owner,repo):
         "Accept": "application/vnd.github.v3+json"
     }
 
-    payload = get_webhook_data()
+    payload = get_webhook_data(name)
 
     response = requests.post(url, headers=headers, data=json.dumps(payload))
 
@@ -55,7 +60,7 @@ async def reply(message):
         await message.add_reaction('👍')
 
         #Android用のGitHub Actionをトリガーする
-        trigger_github_action(OWNER, REPO)
+        trigger_github_action(OWNER, REPO,message.author.name)
     else:
         reply = "zZz..."
         await message.channel.send(reply)
